@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
-// import { BrowserRouter, Switch, Route } from 'react-router-dom'
-// import Login from './pages/Login/Login'
-// import Home from './pages/Home/Home'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import Login from './pages/Login/Login'
+import Home from './pages/Home/Home'
 import store from './store'
-import Counter from './pages/Counter/Counter'
 export interface Iprops {
   [key: string]: any
 }
@@ -26,23 +25,14 @@ export default class App extends PureComponent<Iprops, Istate> {
   }
 
   render () {
-
-    const { count } = this.state
     return (
-      // <BrowserRouter>
-      //   <Switch>
-      //     <Route path="/home" component={Home} />
-      //     <Route path="/" component={Login} />
-      //   </Switch>
-      // </BrowserRouter>
-      <>
-        {store.getState()}
-        <Counter
-          value={count}
-          onIncrement={() => store.dispatch({ type: 'INCREMENT' })}
-          onDecrement={() => store.dispatch({ type: 'DECREMENT' })}
-        />
-      </>
+      <BrowserRouter>
+        <Switch>
+          {/*只匹配其中一个*/}
+          <Route path="/login" component={Login} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </BrowserRouter>
     )
   }
 }
