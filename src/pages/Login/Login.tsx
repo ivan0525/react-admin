@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Checkbox, Button } from 'antd'
+import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
 import './Login.less'
+import { login } from './../../api/login'
 export interface Iprops {
   [key: string]: any
 }
@@ -8,8 +9,13 @@ class Login extends Component<Iprops> {
   // 提交表单
   async handleSubmit (e: any) {
     e.preventDefault()
-    const values = await this.props.form.validateFields()
-    console.log(values)
+    try {
+      const values = await this.props.form.validateFields()
+      const { data } = await login(values)
+      message.success(data.message)
+    } catch (err) {
+      message.error(err.data.message)
+    }
   }
 
   // 校验密码
@@ -20,8 +26,11 @@ class Login extends Component<Iprops> {
       callback('密码长度不能小于6位')
     } else if (value.length > 18) {
       callback('密码长度不能大于18位')
+    } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+      callback('密码必须是英文、数字或下划线组成')
+    } else {
+      callback()
     }
-    callback()
   }
 
   render () {
@@ -47,7 +56,7 @@ class Login extends Component<Iprops> {
             </Form.Item>
             <Form.Item>
               {
-                getFieldDecorator('passowrd', {
+                getFieldDecorator('password', {
                   rules: [
                     { validator: this.checkPassword }
                   ]
@@ -80,7 +89,8 @@ class Login extends Component<Iprops> {
   }
 }
 
-// Form.create是一个高阶函数，它执行后返回一个高阶组件（一个函数，接收一个组件，返回一个新的组件）
+// Form.create是一个高阶函数，它执行后返回一个高阶组件（一个函数，接收一个组件，返回一个新的组件，用来拓展组件的功能）
+// 新组件会向Form组件传递一个强大的对象属性：form
 const WrappedLoginForm = Form.create({ name: 'login_form' })(Login)
 
 export default WrappedLoginForm
