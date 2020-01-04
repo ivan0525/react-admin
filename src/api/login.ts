@@ -1,6 +1,6 @@
-import Mockjs from 'mockjs'
+import request from 'axios'
 export interface IloginForm {
-  username: string
+  email: string
   password: string
 }
 export interface IloginResult {
@@ -9,27 +9,17 @@ export interface IloginResult {
     message: string
   }
 }
-export function login({ username, password }: IloginForm): Promise<IloginResult> {
-  let data: any
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (username === 'admin' && password === '123456') {
-        data = Mockjs.mock({
-          data: {
-            status: 'success',
-            message: '登录成功'
-          }
-        })
-        resolve(data)
-      } else {
-        data = Mockjs.mock({
-          data: {
-            status: 'error',
-            message: '账号或密码错误'
-          }
-        })
-        reject(data)
-      }
-    }, 1000)
+export function login(data: IloginForm): Promise<IloginResult> {
+  return request({
+    url: '/api/users/login',
+    method: 'POST',
+    data
+  })
+}
+
+export function test(): Promise<any> {
+  return request({
+    url: '/api/users/test',
+    method: 'GET'
   })
 }

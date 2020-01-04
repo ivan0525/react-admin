@@ -1,20 +1,32 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
+import { Form, Input, Icon, Checkbox, Button } from 'antd'
 import './Login.less'
-import { login } from './../../api/login'
+import { login, test } from './../../api/login'
 export interface Iprops {
   [key: string]: any
 }
 class Login extends Component<Iprops> {
+  componentDidMount () {
+    this.requestData()
+  }
+  async requestData () {
+    try {
+      const { data } = await test()
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   // 提交表单
   async handleSubmit (e: any) {
     e.preventDefault()
     try {
       const values = await this.props.form.validateFields()
       const { data } = await login(values)
-      message.success(data.message)
+      console.log(data)
+      // message.success(data.message)
     } catch (err) {
-      message.error(err.data.message)
+      // message.error(err.data.message)
     }
   }
 
@@ -40,12 +52,9 @@ class Login extends Component<Iprops> {
         <div className="login-box">
           <Form onSubmit={this.handleSubmit.bind(this)}>
             <Form.Item>
-              {getFieldDecorator('username', {
+              {getFieldDecorator('email', {
                 rules: [
                   { required: true, whitespace: true, message: '请输入用户名' },
-                  { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文、数字或下划线组成' },
-                  { min: 4, message: '用户名至少4位' },
-                  { max: 12, message: '用户名至多12位' }
                 ],
               })(
                 <Input
