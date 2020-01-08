@@ -11,7 +11,7 @@ export interface IloginResult {
 }
 export function login(data: IloginForm): Promise<IloginResult> {
   return request({
-    url: '/api/users/login',
+    url: '/api/user/login',
     method: 'POST',
     data
   })
@@ -19,7 +19,7 @@ export function login(data: IloginForm): Promise<IloginResult> {
 
 export function test(): Promise<any> {
   return request({
-    url: '/api/users/test',
+    url: '/api/user/test',
     method: 'GET'
   })
 }

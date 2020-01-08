@@ -3,7 +3,7 @@ module.exports = function(app) {
   app.use(
     '/api',
     proxy({
-      target: 'https://whispering-headland-44360.herokuapp.com',
+      target: 'http://localhost:3600',
       changeOrigin: true
     })
   )
