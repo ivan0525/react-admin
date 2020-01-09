@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Icon, Checkbox, Button } from 'antd'
+import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
 import './Login.less'
 import { login, test } from './../../api/login'
 export interface Iprops {
@@ -22,11 +22,12 @@ class Login extends Component<Iprops> {
     e.preventDefault()
     try {
       const values = await this.props.form.validateFields()
+      console.log(values)
       const { data } = await login(values)
       console.log(data)
-      // message.success(data.message)
+      message.success(data.message)
     } catch (err) {
-      // message.error(err.data.message)
+      console.log(err)
     }
   }
 
@@ -52,7 +53,7 @@ class Login extends Component<Iprops> {
         <div className="login-box">
           <Form onSubmit={this.handleSubmit.bind(this)}>
             <Form.Item>
-              {getFieldDecorator('email', {
+              {getFieldDecorator('username', {
                 rules: [
                   { required: true, whitespace: true, message: '请输入用户名' },
                 ],
