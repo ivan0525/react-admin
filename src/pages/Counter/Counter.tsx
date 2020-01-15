@@ -10,15 +10,12 @@ export default class Counter extends Component<Iprops> {
     super(props)
   }
 
-  render () {
+  render() {
     console.log(this.props)
     const { value, onIncrement, onDecrement } = this.props
     return (
       <p>
-        Clicked: {value} times
-        {' '}
-        <button onClick={onIncrement}>+</button>
-        {' '}
+        Clicked: {value} times <button onClick={onIncrement}>+</button>{' '}
         <button onClick={onDecrement}>-</button>
       </p>
     )

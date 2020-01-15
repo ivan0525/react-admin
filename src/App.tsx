@@ -16,7 +16,7 @@ export default class App extends PureComponent<Iprops, Istate> {
       count: store.getState()
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     store.subscribe(() => {
       this.setState({
         count: store.getState()
@@ -24,7 +24,7 @@ export default class App extends PureComponent<Iprops, Istate> {
     })
   }
 
-  render () {
+  render() {
     return (
       <BrowserRouter>
         <Switch>

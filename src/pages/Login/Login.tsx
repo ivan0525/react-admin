@@ -6,10 +6,10 @@ export interface Iprops {
   [key: string]: any
 }
 class Login extends Component<Iprops> {
-  componentDidMount () {
+  componentDidMount() {
     this.requestData()
   }
-  async requestData () {
+  async requestData() {
     try {
       const { data } = await test()
       console.log(data)
@@ -18,7 +18,7 @@ class Login extends Component<Iprops> {
     }
   }
   // 提交表单
-  async handleSubmit (e: any) {
+  async handleSubmit(e: any) {
     e.preventDefault()
     try {
       const values = await this.props.form.validateFields()
@@ -26,13 +26,14 @@ class Login extends Component<Iprops> {
       const { data } = await login(values)
       console.log(data)
       message.success(data.message)
+      this.props.history.replace('/')
     } catch (err) {
       console.log(err)
     }
   }
 
   // 校验密码
-  checkPassword (rule: any, value: string, callback: any) {
+  checkPassword(rule: any, value: string, callback: any) {
     if (!value) {
       callback('请输入密码')
     } else if (value.length < 6) {
@@ -46,7 +47,7 @@ class Login extends Component<Iprops> {
     }
   }
 
-  render () {
+  render() {
     const { getFieldDecorator } = this.props.form
     return (
       <div className="login">
@@ -54,30 +55,24 @@ class Login extends Component<Iprops> {
           <Form onSubmit={this.handleSubmit.bind(this)}>
             <Form.Item>
               {getFieldDecorator('username', {
-                rules: [
-                  { required: true, whitespace: true, message: '请输入用户名' },
-                ],
+                rules: [{ required: true, whitespace: true, message: '请输入用户名' }]
               })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder="用户名"
-                />,
+                />
               )}
             </Form.Item>
             <Form.Item>
-              {
-                getFieldDecorator('password', {
-                  rules: [
-                    { validator: this.checkPassword }
-                  ]
-                })(
-                  <Input
-                    type="password"
-                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    placeholder="密码"
-                  />
-                )
-              }
+              {getFieldDecorator('password', {
+                rules: [{ validator: this.checkPassword }]
+              })(
+                <Input
+                  type="password"
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  placeholder="密码"
+                />
+              )}
             </Form.Item>
             <div className="option-box">
               <Form.Item>
@@ -85,13 +80,9 @@ class Login extends Component<Iprops> {
               </Form.Item>
               <Button type="link">忘记密码</Button>
             </div>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >
+            <Button type="primary" htmlType="submit" className="login-form-button">
               登录
-          </Button>
+            </Button>
           </Form>
         </div>
       </div>
