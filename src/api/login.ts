@@ -7,6 +7,7 @@ export interface IloginResult {
   data: {
     status: string
     message: string
+    token?: string
   }
 }
 export function login(data: IloginForm): Promise<IloginResult> {
