@@ -1,22 +1,12 @@
 import React, { Component } from 'react'
 import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
 import './Login.less'
-import { login, test } from './../../api/login'
+import { login } from './../../api/login'
+import { Redirect } from 'react-router-dom'
 export interface Iprops {
   [key: string]: any
 }
 class Login extends Component<Iprops> {
-  componentDidMount() {
-    this.requestData()
-  }
-  async requestData() {
-    try {
-      const { data } = await test()
-      console.log(data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
   // 提交表单
   async handleSubmit(e: any) {
     e.preventDefault()
@@ -24,6 +14,7 @@ class Login extends Component<Iprops> {
       const values = await this.props.form.validateFields()
       console.log(values)
       const { data } = await login(values)
+      localStorage.setItem('user_token', data.token || '')
       console.log(data)
       message.success(data.message)
       this.props.history.replace('/')
@@ -48,6 +39,10 @@ class Login extends Component<Iprops> {
   }
 
   render() {
+    const token = localStorage.getItem('user_token')
+    if (token) {
+      return <Redirect to="/" />
+    }
     const { getFieldDecorator } = this.props.form
     return (
       <div className="login">
