@@ -1,17 +1,10 @@
-import { createStore } from 'redux'
+import { createStore, compose } from 'redux'
+import reducer from './reducers'
 
-// reducer
-function counter(state = 10, action: any) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1
-    case 'DECREMENT':
-      return state - 1
-    default:
-      return state
-  }
-}
-
-const store = createStore(counter)
-
+const store = createStore(
+  reducer,
+  compose(
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() //开启redux调试
+  )
+)
 export default store
