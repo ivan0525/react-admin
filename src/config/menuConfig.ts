@@ -1,6 +1,6 @@
 const routerList: Iroute[] = [
   {
-    path: '/',
+    path: '/home',
     name: '首页',
     icon: 'home'
   },

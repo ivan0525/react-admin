@@ -1,55 +1,36 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Icon } from 'antd'
-import { Redirect, Link } from 'react-router-dom'
-import routerList, { Iroute } from '../../config/menuConfig'
+import { Layout, Icon } from 'antd'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setCollapsedStatus } from '../../store/actions'
+import jwtDecode from 'jwt-decode'
+import SideMenu from './components/SideMenu'
 import './Home.less'
 const { Header, Sider, Content, Footer } = Layout
-const { SubMenu, Item } = Menu
+export interface Iprops {
+  [key: string]: any
+}
 
-export default class Home extends Component {
-  renderMenu(routes: Iroute[]) {
-    return routes.map((route) => {
-      if (route.children) {
-        return (
-          <SubMenu
-            key={route.path}
-            title={
-              <span>
-                <Icon type={route.icon} />
-                {route.name}
-              </span>
-            }
-          >
-            {this.renderMenu(route.children)}
-          </SubMenu>
-        )
-      } else {
-        return (
-          <Item key={route.path}>
-            <Link to={route.path}>
-              <Icon type={route.icon} />
-              {route.name}
-            </Link>
-          </Item>
-        )
-      }
-    })
-  }
-
+class Home extends Component<Iprops> {
   render() {
-    const token = localStorage.getItem('user_token')
+    const { collapsed, setCollapsedStatus, user } = this.props
+    const userInfo = jwtDecode(user)
     // 如果当前用户信息不可用
-    if (!token) {
+    if (!user) {
       // 自动跳转到登陆也
       return <Redirect to="/login" />
     }
     return (
       <Layout className="main-wrapper">
-        <Sider>
-          <Menu mode="inline">{this.renderMenu(routerList)}</Menu>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <SideMenu />
         </Sider>
         <Layout>
-          <Header>header</Header>
+          <Header>
+            <span className="header-trigger" onClick={() => setCollapsedStatus(!collapsed)}>
+              <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} />
+            </span>
+          </Header>
           <Content>content</Content>
           <Footer>footer</Footer>
         </Layout>
@@ -57,3 +38,20 @@ export default class Home extends Component {
     )
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    collapsed: state.collapsed,
+    user: state.user
+  }
+}
+
+// const mapDispatchToProps = (dispatch: any) => ({
+//   setCollapsedStatus: (collapsed: boolean) => dispatch(setCollapsedStatus(collapsed))
+// })
+
+const mapDispatchToProps = {
+  setCollapsedStatus
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
