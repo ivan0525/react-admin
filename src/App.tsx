@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import BasicLayout from './layout'
 import Login from './pages/Login/Login'
-import Home from './pages/Home/Home'
+// import Home from './pages/Home/Home'
 import store from './store'
 export interface Iprops {
   [key: string]: any
@@ -11,10 +12,6 @@ export interface Istate {
   count: number
 }
 export default class App extends PureComponent<Iprops, Istate> {
-  constructor(props: Iprops) {
-    super(props)
-  }
-
   render() {
     return (
       <Provider store={store}>
@@ -22,7 +19,8 @@ export default class App extends PureComponent<Iprops, Istate> {
           <Switch>
             {/*只匹配其中一个*/}
             <Route path="/login" component={Login} />
-            <Route path="/" component={Home} />
+            <Route path="/" component={BasicLayout} />
+            <Redirect path="/" to="/home" />
           </Switch>
         </BrowserRouter>
       </Provider>

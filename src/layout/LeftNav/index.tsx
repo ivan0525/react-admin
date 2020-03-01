@@ -5,13 +5,13 @@ import { connect } from 'react-redux'
 import { setCollapsedStatus } from '../../store/actions'
 import jwtDecode from 'jwt-decode'
 import SideMenu from './components/SideMenu'
-import './Home.less'
+import './index.less'
 const { Header, Sider, Content, Footer } = Layout
 export interface Iprops {
   [key: string]: any
 }
 
-class Home extends Component<Iprops> {
+class LeftNav extends Component<Iprops> {
   render() {
     const { collapsed, setCollapsedStatus, user } = this.props
     const userInfo = jwtDecode(user)
@@ -32,9 +32,9 @@ class Home extends Component<Iprops> {
             </span>
           </Header>
           <Content>
-            <Switch>
-              <Route path="/home" component={Home} />
-            </Switch>
+            {/* <Switch>
+              <Route path="/home" component={LeftNav} />
+            </Switch> */}
           </Content>
           <Footer>footer</Footer>
         </Layout>
@@ -58,4 +58,4 @@ const mapDispatchToProps = {
   setCollapsedStatus
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(LeftNav)
