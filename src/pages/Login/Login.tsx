@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
 import './Login.less'
 import { login } from './../../api/login'
+import { connect } from 'react-redux'
+import { setCurrentUserToken } from '../../store/actions'
 import { Redirect } from 'react-router-dom'
 export interface Iprops {
   [key: string]: any
@@ -39,10 +41,6 @@ class Login extends Component<Iprops> {
   }
 
   render() {
-    const token = localStorage.getItem('user_token')
-    if (token) {
-      return <Redirect to="/" />
-    }
     const { getFieldDecorator } = this.props.form
     return (
       <div className="login">
@@ -89,4 +87,8 @@ class Login extends Component<Iprops> {
 // 新组件会向Form组件传递一个强大的对象属性：form
 const WrappedLoginForm = Form.create({ name: 'login_form' })(Login)
 
-export default WrappedLoginForm
+const mapStateToProps = (state: any) => {
+  console.log()
+}
+
+export default connect()(WrappedLoginForm)

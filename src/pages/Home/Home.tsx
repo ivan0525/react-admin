@@ -14,7 +14,8 @@ export interface Iprops {
 class Home extends Component<Iprops> {
   render() {
     const { collapsed, setCollapsedStatus, user } = this.props
-    const userInfo = jwtDecode(user)
+    console.log(this.props)
+    // const userInfo = jwtDecode(user)
     // 如果当前用户信息不可用
     if (!user) {
       // 自动跳转到登陆也

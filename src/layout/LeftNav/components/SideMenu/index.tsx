@@ -50,7 +50,6 @@ const SideMenu: FC = (props: Iprops) => {
     })
   }
   const menuNodes = renderMenu(routeList)
-  console.log(collapsed)
   return (
     <div className="side-menu">
       <Link to="/home">

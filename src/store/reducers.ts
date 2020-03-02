@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_COLLAPSED_STATUS, SET_USER } from './actionTypes'
+import { SET_COLLAPSED_STATUS, SET_CURRENT_USER_TOKEN } from './actionTypes'
 const initialState = {
   collapsed: false,
   user: localStorage.getItem('user_token')
@@ -16,7 +16,7 @@ function collapsed(state = initialState.collapsed, action: any) {
 
 function user(state = initialState.user, action: any) {
   switch (action.type) {
-    case SET_USER:
+    case SET_CURRENT_USER_TOKEN:
       return action.payload
     default:
       return state
