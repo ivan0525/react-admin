@@ -2,9 +2,9 @@ import React, { FC } from 'react'
 import { Menu, Icon } from 'antd'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import routeList, { Iroute } from '../../../../config/menuConfig'
+import routeList, { Iroute } from '../../config/menuConfig'
 import './sideMenu.less'
-const avatar = require('./../../../../assets/images/avatar.jpeg')
+const avatar = require('../../assets/images/avatar.jpeg')
 const { SubMenu, Item } = Menu
 export interface Iprops {
   [key: string]: any
@@ -55,7 +55,7 @@ const SideMenu: FC = (props: Iprops) => {
       <Link to="/home">
         <div className="title">
           <img src={avatar} alt="logo" />
-          {collapsed ? null : <h1>后台管理系统</h1>}
+          {collapsed ? null : <h1>xxxx系统</h1>}
         </div>
       </Link>
       <Menu mode="inline" selectedKeys={[pathname]} defaultOpenKeys={[parentPath]}>

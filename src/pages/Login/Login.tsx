@@ -3,8 +3,6 @@ import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
 import './Login.less'
 import { login } from './../../api/login'
 import { connect } from 'react-redux'
-import { setCurrentUserToken } from '../../store/actions'
-import { Redirect } from 'react-router-dom'
 export interface Iprops {
   [key: string]: any
 }
@@ -16,7 +14,7 @@ class Login extends Component<Iprops> {
       const values = await this.props.form.validateFields()
       console.log(values)
       const { data } = await login(values)
-      localStorage.setItem('user_token', data.token || '')
+      localStorage.setItem('user_token', data.token)
       console.log(data)
       message.success(data.message)
       this.props.history.replace('/')
@@ -87,8 +85,8 @@ class Login extends Component<Iprops> {
 // 新组件会向Form组件传递一个强大的对象属性：form
 const WrappedLoginForm = Form.create({ name: 'login_form' })(Login)
 
-const mapStateToProps = (state: any) => {
-  console.log()
-}
+// const mapStateToProps = (state: any) => {
+//   console.log()
+// }
 
 export default connect()(WrappedLoginForm)

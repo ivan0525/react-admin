@@ -4,7 +4,6 @@ import { Redirect, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setCollapsedStatus } from '../../store/actions'
 import jwtDecode from 'jwt-decode'
-import SideMenu from './components/SideMenu'
 import './index.less'
 const { Header, Sider, Content, Footer } = Layout
 export interface Iprops {
@@ -18,7 +17,7 @@ class LeftNav extends Component<Iprops> {
     return (
       <Layout className="main-wrapper">
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <SideMenu />
+          {/* <SideMenu /> */}
         </Sider>
         <Layout>
           <Header>
