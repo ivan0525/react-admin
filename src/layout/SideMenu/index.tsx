@@ -30,7 +30,7 @@ const SideMenu: FC = (props: Iprops) => {
             title={
               <span>
                 <Icon type={route.icon} />
-                <span>{route.name}</span>
+                <span>{route.breadcrumbName}</span>
               </span>
             }
           >
@@ -42,7 +42,7 @@ const SideMenu: FC = (props: Iprops) => {
           <Item key={route.path}>
             <Link to={route.path}>
               <Icon type={route.icon} />
-              <span>{route.name}</span>
+              <span>{route.breadcrumbName}</span>
             </Link>
           </Item>
         )

@@ -1,23 +1,41 @@
 const routerList: Iroute[] = [
   {
     path: '/home',
-    name: '首页',
+    breadcrumbName: '首页',
     icon: 'home'
   },
   {
-    path: '/products',
-    name: '商品',
-    icon: 'appstore',
+    path: '/me',
+    breadcrumbName: '个人中心',
+    icon: 'user'
+  },
+  {
+    path: '/article',
+    breadcrumbName: '文章管理',
+    icon: 'snippets',
     children: [
-      { path: '/category', name: '品类管理', icon: 'bars' },
-      { path: '/product', name: '商品管理', icon: 'tool' }
+      { path: '/article/category', breadcrumbName: '文章总揽', icon: 'bars' },
+      { path: '/article/publish', breadcrumbName: '发布文章', icon: 'tool' }
     ]
   }
 ]
 
+export const breadcrumbNameMap: { [key: string]: string } = {}
+// 生成面包屑map
+function generateBreadcrumbNameMap(routerList: Iroute[]) {
+  routerList.forEach((item: Iroute, index: number) => {
+    if (item.children) {
+      generateBreadcrumbNameMap(item.children)
+    }
+    breadcrumbNameMap[item.path] = item.breadcrumbName
+  })
+}
+
+generateBreadcrumbNameMap(routerList)
+
 export interface Iroute {
   path: string
-  name: string
+  breadcrumbName: string
   icon?: string
   children?: Iroute[]
 }

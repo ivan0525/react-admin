@@ -12,10 +12,11 @@ class Login extends Component<Iprops> {
     e.preventDefault()
     try {
       const values = await this.props.form.validateFields()
-      console.log(values)
       const { data } = await login(values)
-      localStorage.setItem('user_token', data.token)
-      console.log(data)
+      // 将token存入cookie，有效期七天
+      document.cookie = `auth=${data.token};expires=${new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000
+      )}`
       message.success(data.message)
       this.props.history.replace('/')
     } catch (err) {

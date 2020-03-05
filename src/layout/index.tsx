@@ -1,43 +1,62 @@
 import React, { FC } from 'react'
-// import LeftNav from './LeftNav'
-import { connect } from 'react-redux'
-import jwtDecode from 'jwt-decode'
+import { useSelector } from 'react-redux'
 import LayoutHeader from './LayoutHeader/LayoutHeader'
 import SideMenu from './SideMenu'
-import { Redirect } from 'react-router-dom'
-import { Layout } from 'antd'
+import Me from '../pages/me/Me'
+import { Route, useLocation, useHistory, Switch, Link } from 'react-router-dom'
+import { breadcrumbNameMap } from '../config/menuConfig'
+import { Layout, Breadcrumb } from 'antd'
 import './index.less'
+import Home from '../pages/Home/Home'
+import PublishArtical from '../pages/ArticleManagement/PublishArtical'
 const { Sider, Footer, Content } = Layout
-const BasicLayout: FC = (props: any) => {
-  const user = localStorage.getItem('user_token')
-  const userInfo = user && jwtDecode(user)
-  console.log(userInfo)
-  // const { iat, exp} = userInfo
-  // 如果当前用户信息不可用
-  if (!user) {
-    // 自动跳转到登陆页
-    return <Redirect to="/login" />
+
+const BasicLayout: FC = () => {
+  const location = useLocation()
+  // 用filter过滤掉空串（第一个‘/’会分出一个空串）
+  const pathArr = location.pathname.split('/').filter((i) => i)
+  const breadcrumbArr = pathArr.map((_, index: number) => {
+    const url = `/${pathArr.slice(0, index + 1).join('/')}`
+    return (
+      <Breadcrumb.Item key={url}>
+        {url.lastIndexOf('/') === 0 ? (
+          breadcrumbNameMap[url]
+        ) : (
+          <Link to={url}>{breadcrumbNameMap[url]}</Link>
+        )}
+      </Breadcrumb.Item>
+    )
+  })
+  const history = useHistory()
+  if (location.pathname === '/') {
+    history.replace('/home')
   }
-  console.log(props.collapsed)
+  const collapsed = useSelector((state: any) => state.collapsed)
+
   return (
     <Layout className="main-wrapper">
-      <Sider trigger={null} collapsible collapsed={props.collapsed}>
+      {/* 左边菜单 */}
+      <Sider trigger={null} collapsible collapsed={collapsed}>
         <SideMenu />
       </Sider>
+      {/* 右边主体内容 */}
       <Layout>
         <LayoutHeader />
-        <Content></Content>
+        <div className="section-header">
+          <Breadcrumb>{breadcrumbArr}</Breadcrumb>
+        </div>
+        <Content>
+          <Switch>
+            <Route path="/home" component={Home} />
+            <Route path="/me" component={Me} />
+            <Route exact path="/article/publish" component={PublishArtical} />
+          </Switch>
+        </Content>
+        {/* 尾部 */}
         <Footer>footer</Footer>
       </Layout>
     </Layout>
   )
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    collapsed: state.collapsed,
-    user: state.user
-  }
-}
-
-export default connect(mapStateToProps)(BasicLayout)
+export default BasicLayout
