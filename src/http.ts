@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { message } from 'antd'
-
+import Util from './utils'
+axios.defaults.headers.common['Authorization'] = Util.getCookie('auth')
 // 请求拦截
 axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
@@ -14,7 +15,6 @@ axios.interceptors.request.use(
 // 响应拦截
 axios.interceptors.response.use(
   (config: AxiosResponse) => {
-    console.log(config)
     if (config.data.status === 'E0000') {
       message.error(config.data.message)
       return Promise.reject(config)
