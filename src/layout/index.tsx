@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import LayoutHeader from './LayoutHeader/LayoutHeader'
 import SideMenu from './SideMenu'
@@ -9,10 +9,29 @@ import { Layout, Breadcrumb } from 'antd'
 import './index.less'
 import Home from '../pages/Home/Home'
 import PublishArtical from '../pages/ArticleManagement/PublishArtical'
+import jwtDecode from 'jwt-decode'
+import { test } from './../api/login'
 const { Sider, Footer, Content } = Layout
 
-const BasicLayout: FC = () => {
+const BasicLayout = () => {
   const location = useLocation()
+  const history = useHistory()
+  if (document.cookie) {
+    const decoded = jwtDecode(document.cookie)
+    console.log(decoded)
+  }
+  useEffect(() => {
+    const getTest = async () => {
+      try {
+        const { data } = await test()
+        console.log(data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getTest()
+  })
+
   // 用filter过滤掉空串（第一个‘/’会分出一个空串）
   const pathArr = location.pathname.split('/').filter((i) => i)
   const breadcrumbArr = pathArr.map((_, index: number) => {
@@ -27,7 +46,6 @@ const BasicLayout: FC = () => {
       </Breadcrumb.Item>
     )
   })
-  const history = useHistory()
   if (location.pathname === '/') {
     history.replace('/home')
   }

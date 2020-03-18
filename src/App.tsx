@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import BasicLayout from './layout'
 import Login from './pages/Login/Login'
 import store from './store'
 import './index.less'
-const App: FC = () => {
+const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
