@@ -3,10 +3,14 @@ import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
 import './Login.less'
 import { login } from './../../api/login'
 import Util from '../../utils'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 const Login: FC<any> = (props) => {
   const history = useHistory()
+  const location = useLocation()
+  if (Util.getCookie('auth')) {
+    history.replace('/')
+  }
   // 提交表单
   const handleSubmit = async (e: any) => {
     e.preventDefault()

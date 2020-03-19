@@ -2,8 +2,9 @@ import React, { FC } from 'react'
 import { Layout, Icon, Avatar, Menu, Dropdown } from 'antd'
 import { useSelector, useDispatch } from 'react-redux'
 import './index.less'
-import { setCollapsedStatus } from '../../store/actions'
+import { setCollapsedStatus, setCurrentUserToken } from '../../store/actions'
 import { Link, useHistory } from 'react-router-dom'
+import Util from './../../utils'
 const { Header } = Layout
 
 const LayoutHeader: FC = () => {
@@ -20,15 +21,16 @@ const LayoutHeader: FC = () => {
     </Menu>
   )
 
+  const dispath = useDispatch()
   // 退出登陆
   const logout = () => {
-    document.cookie = ''
+    Util.removeCookie('auth')
+    dispath(setCurrentUserToken(null))
     history.replace('/login')
     console.log('退出')
   }
 
   const collapsed = useSelector((state: any) => state.collapsed)
-  const dispath = useDispatch()
   return (
     <Header>
       <span className="header-trigger" onClick={() => dispath(setCollapsedStatus(!collapsed))}>

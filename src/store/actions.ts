@@ -7,6 +7,6 @@ export const setCollapsedStatus = (collapsed: boolean) => {
 }
 
 // 当前用户的token
-export const setCurrentUserToken = (user: string) => {
+export const setCurrentUserToken = (user: string | null) => {
   return { type: SET_CURRENT_USER_TOKEN, payload: user }
 }

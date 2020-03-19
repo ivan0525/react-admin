@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Layout, Icon } from 'antd'
-import { Redirect, Switch, Route } from 'react-router-dom'
+
 import { connect } from 'react-redux'
 import { setCollapsedStatus } from '../../store/actions'
 import jwtDecode from 'jwt-decode'

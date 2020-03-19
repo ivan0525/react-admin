@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import LayoutHeader from './LayoutHeader/LayoutHeader'
 import SideMenu from './SideMenu'
 import Me from '../pages/me/Me'
-import { Route, useLocation, useHistory, Switch, Link } from 'react-router-dom'
+import { Route, useLocation, useHistory, Switch, Link, Redirect } from 'react-router-dom'
 import { breadcrumbNameMap } from '../config/menuConfig'
 import { Layout, Breadcrumb } from 'antd'
 import './index.less'
@@ -11,15 +11,14 @@ import Home from '../pages/Home/Home'
 import PublishArtical from '../pages/ArticleManagement/PublishArtical'
 import jwtDecode from 'jwt-decode'
 import { test } from './../api/login'
+import Util from './../utils'
 const { Sider, Footer, Content } = Layout
 
 const BasicLayout = () => {
   const location = useLocation()
   const history = useHistory()
-  if (document.cookie) {
-    const decoded = jwtDecode(document.cookie)
-    console.log(decoded)
-  }
+  // 如果token过期，就跳转到登陆页
+  const token = Util.getCookie('auth')
   useEffect(() => {
     const getTest = async () => {
       try {
@@ -30,7 +29,7 @@ const BasicLayout = () => {
       }
     }
     getTest()
-  })
+  }, [])
 
   // 用filter过滤掉空串（第一个‘/’会分出一个空串）
   const pathArr = location.pathname.split('/').filter((i) => i)
@@ -65,9 +64,15 @@ const BasicLayout = () => {
         </div>
         <Content>
           <Switch>
-            <Route path="/home" component={Home} />
-            <Route path="/me" component={Me} />
-            <Route exact path="/article/publish" component={PublishArtical} />
+            {token ? (
+              <>
+                <Route path="/home" component={Home} />
+                <Route path="/me" component={Me} />
+                <Route exact path="/article/publish" component={PublishArtical} />
+              </>
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Switch>
         </Content>
         {/* 尾部 */}
