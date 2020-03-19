@@ -3,11 +3,10 @@ import { Form, Input, Icon, Checkbox, Button, message } from 'antd'
 import './Login.less'
 import { login } from './../../api/login'
 import Util from '../../utils'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const Login: FC<any> = (props) => {
   const history = useHistory()
-  const location = useLocation()
   if (Util.getCookie('auth')) {
     history.replace('/')
   }
@@ -46,12 +45,12 @@ const Login: FC<any> = (props) => {
       <div className="login-box">
         <Form onSubmit={(e) => handleSubmit(e)}>
           <Form.Item>
-            {getFieldDecorator('username', {
-              rules: [{ required: true, whitespace: true, message: '请输入用户名' }]
+            {getFieldDecorator('email', {
+              rules: [{ required: true, whitespace: true, message: '请输入邮箱' }]
             })(
               <Input
-                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder="用户名"
+                prefix={<Icon type="email" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                placeholder="邮箱"
               />
             )}
           </Form.Item>

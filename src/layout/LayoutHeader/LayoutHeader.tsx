@@ -4,13 +4,22 @@ import { useSelector, useDispatch } from 'react-redux'
 import './index.less'
 import { setCollapsedStatus, setCurrentUserToken } from '../../store/actions'
 import { Link, useHistory } from 'react-router-dom'
+import jwtDecode from 'jwt-decode'
 import Util from './../../utils'
 const { Header } = Layout
 
+interface DecodeedData {
+  _id: string
+  username: string
+  email: string
+  createDate: string
+  iat: number
+  exp: number
+}
 const LayoutHeader: FC = () => {
   const history = useHistory()
-  // const location = useLocation()
-
+  const decoded: DecodeedData = jwtDecode(Util.getCookie('auth'))
+  const { username } = decoded
   // 下拉菜单选项
   const menu = (
     <Menu>
@@ -41,7 +50,7 @@ const LayoutHeader: FC = () => {
           <Avatar size={30} icon="user" />
           <Dropdown overlay={menu} trigger={['click']}>
             <a className="ant-dropdown-link" href="javascript;">
-              Hi
+              Hi, <b style={{ padding: '4px' }}>{username}</b>
               <Icon type="down" />
             </a>
           </Dropdown>

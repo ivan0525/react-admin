@@ -5,6 +5,7 @@ import BasicLayout from './layout'
 import Login from './pages/Login/Login'
 import store from './store'
 import './index.less'
+import Register from './pages/Register/Register'
 const App = () => {
   return (
     <Provider store={store}>
@@ -12,6 +13,7 @@ const App = () => {
         <Switch>
           {/*只匹配其中一个*/}
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <Route path="/" component={BasicLayout} />
         </Switch>
       </BrowserRouter>

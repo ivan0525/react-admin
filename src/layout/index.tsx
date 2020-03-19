@@ -9,7 +9,6 @@ import { Layout, Breadcrumb } from 'antd'
 import './index.less'
 import Home from '../pages/Home/Home'
 import PublishArtical from '../pages/ArticleManagement/PublishArtical'
-import jwtDecode from 'jwt-decode'
 import { test } from './../api/login'
 import Util from './../utils'
 const { Sider, Footer, Content } = Layout

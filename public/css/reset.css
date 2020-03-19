@@ -127,8 +127,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-body {
-  width: 100vw;
-  height: 100vh;
+body,
+html {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
   background-color: #f4f6f9 !important;
 }
