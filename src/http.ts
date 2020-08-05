@@ -32,6 +32,7 @@ instance.interceptors.request.use(
     return config
   },
   (error) => {
+    window.location.href = '/login'
     Promise.reject(error)
   }
 )

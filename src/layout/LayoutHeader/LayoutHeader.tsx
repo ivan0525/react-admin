@@ -18,8 +18,14 @@ interface DecodeedData {
 }
 const LayoutHeader: FC = () => {
   const history = useHistory()
-  const decoded: DecodeedData = jwtDecode(Util.getCookie('auth'))
-  const { username } = decoded
+  const token = Util.getCookie('auth')
+  let username = ''
+  if (token) {
+    const decoded: DecodeedData = jwtDecode(token)
+    username = decoded.username
+  } else {
+    history.replace('/login')
+  }
   // 下拉菜单选项
   const menu = (
     <Menu>

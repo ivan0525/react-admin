@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import LayoutHeader from './LayoutHeader/LayoutHeader'
 import SideMenu from './SideMenu'
 import Me from '../pages/me/Me'
-import { Route, useLocation, useHistory, Switch, Link, Redirect } from 'react-router-dom'
+import { Route, useLocation, useHistory, Switch, Link } from 'react-router-dom'
 import { breadcrumbNameMap } from '../config/menuConfig'
 import { Layout, Breadcrumb } from 'antd'
 import './index.less'
@@ -18,6 +18,9 @@ const BasicLayout = () => {
   const history = useHistory()
   // 如果token过期，就跳转到登陆页
   const token = Util.getCookie('auth')
+  if (!token) {
+    history.replace('/login')
+  }
   useEffect(() => {
     const getTest = async () => {
       try {
@@ -44,6 +47,7 @@ const BasicLayout = () => {
       </Breadcrumb.Item>
     )
   })
+
   if (location.pathname === '/') {
     history.replace('/home')
   }
@@ -63,15 +67,9 @@ const BasicLayout = () => {
         </div>
         <Content>
           <Switch>
-            {token ? (
-              <>
-                <Route path="/home" component={Home} />
-                <Route path="/me" component={Me} />
-                <Route exact path="/article/publish" component={PublishArtical} />
-              </>
-            ) : (
-              <Redirect to="/login" />
-            )}
+            <Route path="/home" component={Home} />
+            <Route path="/me" component={Me} />
+            <Route exact path="/article/publish" component={PublishArtical} />
           </Switch>
         </Content>
         {/* 尾部 */}

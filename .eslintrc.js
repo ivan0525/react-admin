@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ['alloy', 'alloy/react', 'alloy/typescript'],
+  extends: [
+    'alloy',
+    'alloy/react',
+    'prettier',
+    'prettier/@typescript-eslint',
+  ],
   env: {
     // 这里填入你的项目用到的环境
     // 它们预定义了不同环境的全局变量，比如：
@@ -18,6 +23,6 @@ module.exports = {
   },
   rules: {
     // 这里填入你的项目需要的个性化配置
-    'space-before-function-parenthese': 'always'
+    'space-before-function-parenthese': 1
   }
 }
